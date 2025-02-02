@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>¿Quieres ser mi San Valentín?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .waves {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23233554' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,170.7C384,181,480,171,576,144C672,117,768,75,864,64C960,53,1056,75,1152,96C1248,117,1344,139,1392,149.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            background: rgba(26, 26, 46, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            margin: 2rem auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            color: #ff69b4;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        .flowers {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .flower {
+            font-size: 4rem;
+            animation: bounce 2s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            line-height: 1.6;
+        }
+
+        .moon-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .moon {
+            font-size: 4rem;
+            animation: glow 2s infinite;
+        }
+
+        .star-emoji {
+            font-size: 2rem;
+            animation: twinkle 1.5s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px #fff; }
+            50% { text-shadow: 0 0 40px #fff; }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .btn-yes {
+            background: #ff69b4;
+            color: white;
+            border: 2px solid #ff69b4;
+        }
+
+        .btn-no {
+            background: transparent;
+            color: white;
+            border: 2px solid #fff;
+        }
+
+        #playlist {
+            margin-top: 2rem;
+            color: #ff69b4;
+            font-style: italic;
+            text-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+        }
+
+        .second-page {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .love-message {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 2s ease-in;
+        }
+
+        .thank-you {
+            color: #ff69b4;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .message-content p {
+            margin: 1.5rem 0;
+            line-height: 1.8;
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            animation: slideIn 1s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .highlight {
+            color: #ff69b4;
+            font-weight: bold;
+            font-size: 1.4rem !important;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5) !important;
+        }
+
+        .special {
+            color: #87CEFA;
+            font-size: 1.3rem !important;
+            font-style: italic;
+            text-shadow: 0 0 10px rgba(135, 206, 250, 0.5) !important;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .visible {
+            display: block !important;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .flower {
+                font-size: 3rem;
+            }
+            
+            .moon {
+                font-size: 3rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="waves"></div>
+    
+    <div class="container" id="first-page">
+        <h1>¿Quieres ser mi San Valentín?</h1>
+        
+        <div class="flowers">
+            <div class="flower">🌻</div>
+            <div class="flower">🌷</div>
+            <div class="flower">🌻</div>
+            <div class="flower">🌷</div>
+        </div>
+
+        <div class="message">
+            <p class="glow">Como el mar profundo que nos hipnotiza, como el</p>
+            <p class="glow">aroma de un perfume que perdura en el tiempo, como</p>
+            <p class="glow">la luna y las estrellas que iluminan nuestras noches...</p>
+            <p class="glow">Tu voz es la melodía que quiero escuchar por siempre,</p>
+            <p class="glow">tus ojos la luz que guía mi sendero hacia ti,</p>
+            <p class="glow">y tus besos son la fuerza que mi alma necesita para vivir.</p>
+            <p class="glow">¿Me harías el honor de ser mi San Valentín?</p>
+        </div>
+
+        <div class="moon-container">
+            <div class="star-emoji">⭐</div>
+            <div class="moon">🌙</div>
+            <div class="star-emoji">⭐</div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-yes" onclick="handleYes()">¡Sí, quiero! 💖</button>
+            <button class="btn btn-no" onclick="moveButton(this)">No 💔</button>
+        </div>
+
+        <div id="playlist">
+            💗 Nuestro albúm mi niña💗
+                <style>
+        body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); /* Mantener el gradiente */
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    color: #fff;
+        }
+        h1 {
+            color: #c2185b;
+            font-size: 2.5em;
+        }
+        .album-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            max-width: 800px;
+            margin: auto;
+        }
+        .album {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+        }
+        .foto {
+            border: 5px solid #c2185b;
+            border-radius: 15px;
+            overflow: hidden;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .foto:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+        .foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Álbum de San Valentín 💕</h1>
+    <div class="album-container">
+        <div class="album" id="album">
+            <!-- Sección de imágenes -->
+            <div class="foto"><img src="https://i.imgur.com/0tmLeAc.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/5qMDoDf.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/12R3wIn.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/Z5AoVVX.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/mz5n3YS.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/O0Vakjj.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/8zHjYav.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/lYZjaex.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/H1v9uGg.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/XkvumrN.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/GcIDTsM.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/iexYPX9.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/yZc4YBe.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/6WYpVbt.jpeg"></div>
+            <div class="foto"><img src="https://i.imgur.com/Sks1kDB.jpeg"></div>
+        </div>
+    </div>
+    
+    <audio autoplay loop>
+        <source src="Billie Eilish - BIRDS OF A FEATHER  Lyrics  Español.mp3" type="audio/mp3">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+    
+    <script>
+        // Frase dividida en 15 partes
+        const mensajes = [
+            "TE", "AMO", "AL", "INFINITO", "Y", "MÁS", "ALLÁ",
+            "MI", "PRINCESA", "PERFECTA", "EL", "AMOR", "DE", "MI", "VIDA"
+        ];
+        
+        // Seleccionar todas las imágenes
+        const fotos = document.querySelectorAll('.foto');
+
+        // Asignar evento a cada imagen
+        fotos.forEach((foto, index) => {
+            foto.addEventListener('click', () => {
+                alert(mensajes[index]); // Mostrar el mensaje correspondiente
+            });
+        });
+    </script>
+        </div>
+    </div>
+
+    <div class="container second-page" id="second-page">
+        <div class="love-message">
+            <h2 class="thank-you">❤️ Mi Amor ❤️</h2>
+            <div class="message-content">
+                <p>Gracias por ese "sí quiero ser tu San Valentín" de ti, mi princesita perfecta, es como recibir el regalo más hermoso que el universo podría darme.</p>
+                
+                <p>Mi niña linda, mi chiquita bonita, mi bella durmiente que, al despertar, ilumina todo mi mundo. Eres mi dormilona preciosa, mi reina divina, la razón por la que sonrío todos los días.</p>
+                
+                <p>Mi amor, mi felicidad, mi paz... Eres el todo que le da vida a mi corazón. ✨</p>
+                
+                <p>Mi niña sexy, la mamá de nuestros hijos, mi otra mitad que completa mi ser, la que me hace sentir el amor en su máxima expresión.</p>
+                
+                <p>Mi mami linda, mi cachetoncita guapa, mi colachon, mi sally, mi jessie... MI TODOOOOOO.</p>
+                
+                <p>No hay palabras suficientes para describir lo afortunado que me siento de tenerte a mi lado, porque por encima de todo, eres MIAAAAAAA, y eso es lo que me llena el alma de una felicidad infinita.</p>
+                
+                <p>Te amo más de lo que puedo decir o demostrar mami.</p>
+                
+                <p class="highlight">TE AMOOOOOOOOOOOOOOOOOOOOOOOO AL INFINITOOOOOO Y MAS ALLAAAA MAMI LINDA</p>
+                
+                <p class="special">DE AQUI A LA LUNA A PASITOS DE TORTUGA 🌙</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Crear estrellas aleatorias
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function handleYes() {
+            document.getElementById('first-page').style.display = 'none';
+            document.getElementById('second-page').classList.add('visible');
+        }
+
+        function moveButton(btn) {
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'absolute';
+            btn.style.left = `${x}px`;
+            btn.style.top = `${y}px`;
+        }
+
+        // Crear estrellas al cargar la página
+        createStars();
+    </script>
+</body>
+</html>
